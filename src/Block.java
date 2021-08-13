@@ -18,7 +18,8 @@ public class Block {
         String calculatedHash = StringUtil.applySha256(
                     previousHash +
                         Long.toString(timeStamp) +
-                        data
+                        Integer.toString(nonce)
+                            +data
         );
         return calculatedHash;
     }
