@@ -1,12 +1,14 @@
-import com.google.gson.GsonBuilder;
-
+import java.security.Security;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lukechain {
 
     public static ArrayList<Block> blockchain = new ArrayList<Block>();
-
+    public static HashMap<String,TransactionOutput> UTXOs = new HashMap<String, TransactionOutput>();
     public static int difficulty = 5;
+    public static Wallet walletA;
+    public static Wallet walletB;
 
     public static boolean isChainValid(){
         Block currentBlock;
@@ -37,7 +39,25 @@ public class Lukechain {
 
 
     public  static void main(String[] args){
+        //definindo o bouncy castle como provedor de segurança
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        //Criar as carteiras
+        walletA = new Wallet();
+        walletB = new Wallet();
 
+        //Teste das chaves privadas e chaves publicas
+        System.out.println("Chave privada e Chave pública: ");
+        System.out.println(StringUtil.getStringFromKey(walletA.privateKey));
+        System.out.println(StringUtil.getStringFromKey(walletA.publicKey));
+
+        //Criamos a transação entre a e b
+        Transaction transaction = new Transaction(walletA.publicKey, walletB.publicKey, 2,null);
+        transaction.generateSignature(walletA.privateKey);
+
+        //verificar a assinatura e a chave publica
+        System.out.println("Assinatura sendo verificada");
+        System.out.println(transaction.verifySignature());
+/*
         blockchain.add(new Block("Olá eu sou o primeiro bloco","0"));
         System.out.println("Tentando minerar o bloco 1...");
         blockchain.get(0).mineBlock(difficulty);
@@ -57,6 +77,8 @@ public class Lukechain {
         String blockchainJson = new GsonBuilder().setPrettyPrinting().create().toJson(blockchain);
         System.out.println("The block chain: ");
         System.out.println(blockchainJson);
+
+ */
 
     }
 }
