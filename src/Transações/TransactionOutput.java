@@ -1,3 +1,7 @@
+package Transações;
+
+import MétodosUtil.StringUtil;
+
 import java.security.PublicKey;
 
 public class TransactionOutput {

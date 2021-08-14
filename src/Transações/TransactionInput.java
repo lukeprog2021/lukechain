@@ -1,3 +1,5 @@
+package Transações;
+
 public class TransactionInput {
     public String transactionOutputId; //referencia para id da transação
     public TransactionOutput UTXO;

@@ -1,3 +1,11 @@
+package MainLukeChain;
+
+import Bloco.Block;
+import Carteira.Wallet;
+import Transações.Transaction;
+import Transações.TransactionInput;
+import Transações.TransactionOutput;
+
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -5,7 +13,7 @@ import java.util.HashMap;
 public class Lukechain {
 
     public static ArrayList<Block> blockchain = new ArrayList<Block>();
-    public static HashMap<String,TransactionOutput> UTXOs = new HashMap<String, TransactionOutput>();
+    public static HashMap<String, TransactionOutput> UTXOs = new HashMap<String, TransactionOutput>();
 
 
     public static int difficulty = 3;
@@ -31,7 +39,7 @@ public class Lukechain {
         genesisTransaction.outputs.add(new TransactionOutput(genesisTransaction.recipient, genesisTransaction.value, genesisTransaction.transactionId));
         UTXOs.put(genesisTransaction.outputs.get(0).id,genesisTransaction.outputs.get(0));
 
-        System.out.println("Criando e minerando o Genesis Block");
+        System.out.println("Criando e minerando o Genesis Bloco.Block");
         Block genesis = new Block("0");
         genesis.addTransaction(genesisTransaction);
         addBlock(genesis);
@@ -40,7 +48,7 @@ public class Lukechain {
         Block block1 = new Block(genesis.hash);
         System.out.println("Balanço da carteira A é: "+ walletA.getBalance());
         System.out.println("A carteira A está tentando enviar (40) para Carteira B...");
-        block1.addTransaction(walletA.sendFunds(walletB.publicKey,40f));
+        block1.addTransaction(walletA.sendFunds(walletB.publicKey,55.50f));
         addBlock(block1);
         System.out.println("Saldo da carteira A é:"+walletA.getBalance());
         System.out.println("Saldo da carteira B é:"+walletB.getBalance());
@@ -63,12 +71,12 @@ public class Lukechain {
 /*
         Teste das chaves privadas e chaves publicas
         System.out.println("Chave privada e Chave pública: ");
-        System.out.println(StringUtil.getStringFromKey(walletA.privateKey));
-        System.out.println(StringUtil.getStringFromKey(walletA.publicKey));
+        System.out.println(MétodosUtil.StringUtil.getStringFromKey(walletA.privateKey));
+        System.out.println(MétodosUtil.StringUtil.getStringFromKey(walletA.publicKey));
 
 
         Criamos a transação entre a e b
-        Transaction transaction = new Transaction(walletA.publicKey, walletB.publicKey, 2,null);
+        Transações.Transaction transaction = new Transações.Transaction(walletA.publicKey, walletB.publicKey, 2,null);
         transaction.generateSignature(walletA.privateKey);
 
 
@@ -79,16 +87,16 @@ public class Lukechain {
 
 
 
-        blockchain.add(new Block("Olá eu sou o primeiro bloco","0"));
+        blockchain.add(new Bloco.Block("Olá eu sou o primeiro bloco","0"));
         System.out.println("Tentando minerar o bloco 1...");
         blockchain.get(0).mineBlock(difficulty);
 
-        blockchain.add(new Block("Oi, eu sou o segundo bloco",blockchain.get(blockchain.size()-1).hash));
+        blockchain.add(new Bloco.Block("Oi, eu sou o segundo bloco",blockchain.get(blockchain.size()-1).hash));
         System.out.println("Tentando minerar o bloco 2...");
         blockchain.get(1).mineBlock(difficulty);
 
 
-        blockchain.add(new Block("Eai, eu sou o terceiro bloco",blockchain.get(blockchain.size()-1).hash));
+        blockchain.add(new Bloco.Block("Eai, eu sou o terceiro bloco",blockchain.get(blockchain.size()-1).hash));
         System.out.println("Tentando minerar o bloco 3...");
         blockchain.get(2).mineBlock(difficulty);
 
@@ -169,7 +177,7 @@ public class Lukechain {
                     return false;
                 }
                 if (currentTransaction.outputs.get(1).recipient != currentTransaction.sender) {
-                    System.out.println("#Transaction(" + t + ") output 'change' is not sender.");
+                    System.out.println("#Transações.Transaction(" + t + ") output 'change' is not sender.");
                     return false;
                 }
 

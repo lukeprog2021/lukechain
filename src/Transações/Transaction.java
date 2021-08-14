@@ -1,3 +1,8 @@
+package Transações;
+
+import MainLukeChain.Lukechain;
+import MétodosUtil.StringUtil;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;

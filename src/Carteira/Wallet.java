@@ -1,3 +1,10 @@
+package Carteira;
+
+import MainLukeChain.Lukechain;
+import Transações.Transaction;
+import Transações.TransactionInput;
+import Transações.TransactionOutput;
+
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.util.ArrayList;
@@ -8,7 +15,7 @@ public class Wallet {
     public PrivateKey privateKey;
     public PublicKey publicKey;
 
-    public HashMap <String,TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
+    public HashMap <String, TransactionOutput> UTXOs = new HashMap<String,TransactionOutput>();
 
     public Wallet(){
         generateKeypair();

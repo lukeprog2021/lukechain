@@ -1,3 +1,8 @@
+package Bloco;
+
+import MétodosUtil.StringUtil;
+import Transações.Transaction;
+
 import java.util.ArrayList;
 import java.util.Date;
 
