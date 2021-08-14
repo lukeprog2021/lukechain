@@ -42,4 +42,55 @@ public class Transaction {
         return StringUtil.verifyECDSASig(sender, data, signature);
     }
 
+    public boolean processTransaction(){
+        if(verifySignature() == false){
+            System.out.println("#Verificação da transação falhou");
+            return false;
+        }
+        for(TransactionInput i : inputs){
+            i.UTXO = Lukechain.UTXOs.get(i.transactionOutputId);
+        }
+        //checa se a transação é válida
+        if(getInputsValue() < Lukechain.minimumTransaction){
+            System.out.println("Entrada de transações pequena: "+getInputsValue());
+            return false;
+        }
+
+        //gerando as transações de output
+        float leftOver = getInputsValue() - value;
+        transactionId = calculateHash();
+        outputs.add(new TransactionOutput(this.recipient,value,transactionId));
+        outputs.add(new TransactionOutput(this.sender, leftOver, transactionId));
+
+        //adicionando as transações a lista
+        for(TransactionOutput o : outputs){
+            Lukechain.UTXOs.put(o.id,o);
+        }
+
+        //removendo as transações inputs de utxo lista
+        for(TransactionInput i: inputs){
+            if(i.UTXO == null)continue;
+            Lukechain.UTXOs.remove(i.UTXO.id);
+        }
+        return true;
+    }
+
+    //retorna a soma do inputs(UTXOs) valores
+    public float getInputsValue(){
+        float total = 0;
+        for(TransactionInput i : inputs){
+            if(i.UTXO == null)continue;
+            total += i.UTXO.value;
+        }
+        return total;
+    }
+    //retorna a soma dos outputs
+    public  float getOutputsValue(){
+        float total = 0;
+        for(TransactionOutput o: outputs){
+            total += o.value;
+        }
+        return total;
+    }
+
 }
